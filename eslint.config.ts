@@ -6,7 +6,7 @@ export default antfu(
   {
     unocss: true,
     rules: {
-      '@unocss/order': 'off',
+      'unocss/order': 'off',
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'unused-imports/no-unused-vars': ['warn', {
         caughtErrors: 'none',

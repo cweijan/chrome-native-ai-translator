@@ -1,6 +1,8 @@
-# vue-start-template
+# Fancy Translator
 
-This template should help get you started developing with Vue 3 in Vite.
+Fancy Translator uses the Translator API to provide fast, secure translations that run entirely in the browser.
+
+https://translate.daidr.me/
 
 ## Recommended IDE Setup
 

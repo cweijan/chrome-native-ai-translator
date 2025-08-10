@@ -5,7 +5,9 @@
 
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+
+    "types": ["./src/types/language-detector.d.ts", "./src/types/translator.d.ts"]
   },
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "exclude": ["src/**/__tests__/*"]
