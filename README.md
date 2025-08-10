@@ -2,6 +2,8 @@
 
 Fancy Translator uses the Translator API to provide fast, secure translations that run entirely in the browser.
 
+> 俩小时糊出来的，感觉会有很多 Bug，之后慢慢修
+
 https://translate.daidr.me/
 
 ## Recommended IDE Setup
