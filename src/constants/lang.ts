@@ -28,6 +28,12 @@ export const LANGUAGES: string[] = [
   'hr', // 克罗地亚语
   'ar-Latn', // 阿拉伯语（拉丁字母）
   'cs', // 捷克语
+  'hu', // 匈牙利语
+  'uk', // 乌克兰语
+  'he', // 希伯来语
+  'bg', // 保加利亚语
+  'ro', // 罗马尼亚语
+  'hi-Latn', // 印地语（拉丁字母）
 ]
 
 export const LANGUAGE_MAP: Record<string, string> = {
@@ -62,6 +68,39 @@ export const LANGUAGE_MAP: Record<string, string> = {
   'hr': '克罗地亚语',
   'ar-Latn': '阿拉伯语 (拉丁字母)',
   'cs': '捷克语',
+  'hu': '匈牙利语',
+  'uk': '乌克兰语',
+  'he': '希伯来语',
+  'bg': '保加利亚语',
+  'ro': '罗马尼亚语',
+  'hi-Latn': '印地语 (拉丁字母)',
+
+  // 不支持的语言
+  'sm': '萨摩亚语',
+  'ht': '海地语',
+  'gu': '古吉拉特语',
+  'ga': '爱尔兰语',
+  'gn': '瓜拉尼语',
+  'yo': '约鲁巴语',
+  'fa': '波斯语',
+  'mn': '蒙古语',
+  'fil': '菲律宾语',
+  'ig': '伊博语',
+  'my': '缅甸语',
+  'tg': '塔吉克语',
+  'eo': '世界语',
+  'sk': '斯洛伐克语',
+  'mi': '毛利语',
+  'ur': '乌尔都语',
+  'uz': '乌兹别克语',
+  'co': '科西嘉语',
+  'st': '南索托语',
+  'jv': '爪哇语',
+  'sn': '修纳语',
+  'zu': '祖鲁语',
+  'sq': '阿尔巴尼亚语',
+  'sr': '塞尔维亚语',
+  'zh-Latn': '中文 (拉丁字母)',
 }
 
 export function getLangLabel(lang?: string) {

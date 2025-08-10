@@ -1,7 +1,7 @@
 import { useThrottleFn } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { getLangLabel, LANGUAGES } from '@/constants/lang'
+import { getLangLabel } from '@/constants/lang'
 
 interface TranslatorStatusItem {
   sourceLanguage: string
@@ -141,7 +141,7 @@ export const useTranslatorStore = defineStore('translator', () => {
             languageDetectorStatus.value!.progress = e.loaded || 0
           })
         },
-        expectedInputLanguages: LANGUAGES,
+        // expectedInputLanguages: LANGUAGES,
       })
       languageDetectorStatus.value.instance = instance
       languageDetectorStatus.value.status = 'ready'
