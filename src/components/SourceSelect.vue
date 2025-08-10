@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { getLangLabel, LANGUAGE_MAP, LANGUAGES } from '@/constants/lang'
+import { getLangLabel, LANGUAGES } from '@/constants/lang'
 import { useTranslatorStore } from '@/stores/translator'
 import DouSelect from './base/DouSelect.vue'
 
@@ -26,7 +26,7 @@ const options = computed(() => {
 
   LANGUAGES.forEach((item) => {
     finalOptions.push({
-      label: LANGUAGE_MAP[item] ?? item,
+      label: getLangLabel(item),
       value: item,
     })
   })

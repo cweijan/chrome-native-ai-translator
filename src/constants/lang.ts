@@ -101,11 +101,15 @@ export const LANGUAGE_MAP: Record<string, string> = {
   'sq': '阿尔巴尼亚语',
   'sr': '塞尔维亚语',
   'zh-Latn': '中文 (拉丁字母)',
+  'km': '高棉语',
+  'ne': '尼泊尔语',
+  'pa': '旁遮普语',
 }
 
 export function getLangLabel(lang?: string) {
   if (!lang) {
-    return '未知'
+    return '未知 (Unknown)'
   }
-  return LANGUAGE_MAP[lang ?? ''] ?? lang
+  const langLabel = LANGUAGE_MAP[lang]
+  return langLabel ? `${langLabel} <${lang}>` : lang
 }
