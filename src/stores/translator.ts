@@ -203,6 +203,8 @@ export const useTranslatorStore = defineStore('translator', () => {
     }
 
     if (!translatorStatus.value?.instance || translatorStatus.value?.sourceLanguage !== sourceLanguage || translatorStatus.value?.targetLanguage !== targetLanguage) {
+      translatorStatus.value?.instance?.destroy()
+      translatorStatus.value = undefined
       await initTranslator(controller.signal).catch(() => { })
     }
 
