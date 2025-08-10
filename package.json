@@ -1,0 +1,53 @@
+{
+  "name": "vue-start-template",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "bunx --bun vite",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "bunx --bun vite preview",
+    "build-only": "bunx --bun vite build",
+    "type-check": "vue-tsc --build",
+    "lint:oxlint": "bunx --bun oxlint . --fix -D correctness --ignore-path .gitignore",
+    "lint:eslint": "bunx --bun eslint . --fix",
+    "lint": "bun run lint:oxlint && bun run lint:eslint",
+    "lint:migrate": "bunx --bun @oxlint/migrate ./eslint.config.ts",
+    "postinstall": "git-hooks"
+  },
+  "dependencies": {
+    "@vueuse/core": "^13.6.0",
+    "pinia": "^3.0.3",
+    "vue": "^3.5.18",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^5.2.0",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@tsconfig/bun": "^1.0.8",
+    "@types/bun": "^1.2.19",
+    "@unocss/eslint-plugin": "^66.4.2",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitejs/plugin-vue-jsx": "^5.0.1",
+    "@vue/tsconfig": "^0.7.0",
+    "bun-git-hooks": "^0.2.19",
+    "eslint": "^9.31.0",
+    "eslint-plugin-oxlint": "~1.8.0",
+    "jiti": "^2.4.2",
+    "lint-staged": "^16.1.5",
+    "npm-run-all2": "^8.0.4",
+    "oxlint": "~1.8.0",
+    "sass-embedded": "^1.90.0",
+    "typescript": "~5.8.0",
+    "unocss": "^66.4.2",
+    "vite": "npm:rolldown-vite@latest",
+    "vite-plugin-vue-devtools": "^8.0.0",
+    "vue-tsc": "^3.0.4"
+  },
+  "lint-staged": {
+    "*": [
+      "bun lint"
+    ]
+  }
+}
