@@ -27,6 +27,7 @@ export const LANGUAGES: string[] = [
   'mr', // 马拉地语
   'hr', // 克罗地亚语
   'ar-Latn', // 阿拉伯语（拉丁字母）
+  'cs', // 捷克语
 ]
 
 export const LANGUAGE_MAP: Record<string, string> = {
@@ -60,6 +61,7 @@ export const LANGUAGE_MAP: Record<string, string> = {
   'mr': '马拉地语',
   'hr': '克罗地亚语',
   'ar-Latn': '阿拉伯语 (拉丁字母)',
+  'cs': '捷克语',
 }
 
 export function getLangLabel(lang?: string) {
