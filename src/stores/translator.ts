@@ -1,5 +1,5 @@
 import { useThrottleFn } from '@vueuse/core'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { getLangLabel } from '@/constants/lang'
 
@@ -216,17 +216,35 @@ export const useTranslatorStore = defineStore('translator', () => {
       return
     }
     try {
-      const result = await translatorStatus.value.instance.translate(text, {
+      const result = translatorStatus.value.instance.translateStreaming(text, {
         signal: controller.signal,
       })
       if (isOutdated()) {
         return
       }
+
       translateResult.value = {
         error: undefined,
-        result,
+        result: '',
         duration: performance.now() - start,
       }
+
+      const reader = result.getReader()
+      while (true) {
+        if (isOutdated()) {
+          return {
+            error: undefined,
+            result: '',
+          }
+        }
+        const { done, value } = await reader.read()
+        if (done) {
+          break
+        }
+        translateResult.value.result += value
+        translateResult.value.duration = performance.now() - start
+      }
+
       isTranslating.value = false
     }
     catch (error) {
@@ -297,6 +315,11 @@ export const useTranslatorStore = defineStore('translator', () => {
     }
   }
 
+  updateLangPair({
+    sourceLanguage: isLanguageDetectorSupported.value ? 'auto' : 'en',
+    targetLanguage: 'zh-Hans',
+  })
+
   return {
     isTranslatorSupported,
     isLanguageDetectorSupported,
@@ -310,3 +333,7 @@ export const useTranslatorStore = defineStore('translator', () => {
     realSourceLanguage: _realSourceLanguage,
   }
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useTranslatorStore, import.meta.hot))
+}
