@@ -7,6 +7,7 @@ interface TranslatorStatusItem {
   sourceLanguage: string
   targetLanguage: string
   status: 'ready' | 'error' | 'downloading'
+  noNeedToDownload?: boolean
   progress?: number
   error?: Error
   signal?: AbortSignal
@@ -30,6 +31,7 @@ export const useTranslatorStore = defineStore('translator', () => {
   const languageDetectorStatus = ref<LanguageDetectorStatusItem>()
 
   const _sourceText = ref('')
+  const languageDetectionList = ref<LanguageDetectionResult[]>([])
 
   const _sourceLanguage = ref('')
   const _realSourceLanguage = ref('')
@@ -179,6 +181,7 @@ export const useTranslatorStore = defineStore('translator', () => {
         isTranslating.value = false
         return
       }
+      languageDetectionList.value = []
       const detectedLanguage = await languageDetectorStatus.value.instance.detect(text, {
         signal: controller.signal,
       }).catch(() => {
@@ -187,6 +190,7 @@ export const useTranslatorStore = defineStore('translator', () => {
       if (isOutdated()) {
         return
       }
+      languageDetectionList.value = detectedLanguage
       sourceLanguage = detectedLanguage[0].detectedLanguage
       if (sourceLanguage === 'und') {
         // 未知语言
@@ -275,13 +279,14 @@ export const useTranslatorStore = defineStore('translator', () => {
         sourceLanguage: _realSourceLanguage.value,
         targetLanguage: _targetLanguage.value,
         status: 'error',
-        error: new Error(`不支持${getLangLabel(_realSourceLanguage.value)}到${getLangLabel(_targetLanguage.value)}的翻译`),
+        error: new Error(`不支持 ${getLangLabel(_realSourceLanguage.value)} 到 ${getLangLabel(_targetLanguage.value)} 的翻译`),
       }
     }
     else if (status === 'downloading' || status === 'downloadable' || status === 'available') {
       translatorStatus.value = {
         sourceLanguage: _realSourceLanguage.value,
         targetLanguage: _targetLanguage.value,
+        noNeedToDownload: status === 'available',
         status: 'downloading',
         error: undefined,
         progress: 0,
@@ -331,6 +336,7 @@ export const useTranslatorStore = defineStore('translator', () => {
     isTranslating,
     translateResult,
     realSourceLanguage: _realSourceLanguage,
+    languageDetectionList,
   }
 })
 
