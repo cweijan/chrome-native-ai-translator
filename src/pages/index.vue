@@ -38,7 +38,7 @@ const disabledTextarea = computed(() => {
 const { textarea } = useTextareaAutosize({ styleProp: 'height', input: sourceText })
 
 const replacedTranslationResult = computed(() => {
-  return (translateResult?.value?.result || '').replace(/<br>/g, '\n')
+  return (translateResult?.value?.result || '').replace(/<br>/g, '\n').trim()
 })
 
 const { t } = useI18n()

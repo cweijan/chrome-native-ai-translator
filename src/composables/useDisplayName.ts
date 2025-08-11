@@ -15,12 +15,17 @@ export function useDisplayName() {
   return computed(() => {
     const displayNames = new Intl.DisplayNames([locale.value], { type: 'language' })
     const unknownLanguage = t('unknown_language')
+    const languageLabelCache = new Map<string, string>()
     return {
       getLabel(lang: string) {
         if (!lang || lang === 'und') {
           return `${unknownLanguage} <${lang}>`
         }
+        if (languageLabelCache.has(lang)) {
+          return languageLabelCache.get(lang)!
+        }
         const label = displayNames.of(lang)
+        languageLabelCache.set(lang, label ? `${label} <${lang}>` : lang)
         return label ? `${label} <${lang}>` : lang
       },
     }

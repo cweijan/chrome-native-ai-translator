@@ -226,7 +226,7 @@ export const useTranslatorStore = defineStore('translator', () => {
       return
     }
     try {
-      const result = translatorStatus.value.instance.translateStreaming(text.replace(/\n/g, '<br>'), {
+      const result = translatorStatus.value.instance.translateStreaming(text.trim().replace(/\n/g, '<br>'), {
         signal: controller.signal,
       })
       if (isOutdated()) {
