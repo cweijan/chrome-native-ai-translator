@@ -118,8 +118,8 @@ const { textarea } = useTextareaAutosize({ styleProp: 'height', input: sourceTex
               <div v-if="translateResult?.error" class="text-red-600 p-3 rounded-xl bg-red-600/10 dark:text-red-400 lh-[normal]">
                 {{ translateResult?.error?.message }}
               </div>
-              <div v-else>
-                {{ translateResult?.result || '...' }}
+              <div v-else class="whitespace-pre-wrap">
+                {{ (translateResult?.result || '...').replace(/<br>/g, '\n') }}
               </div>
             </template>
           </div>
