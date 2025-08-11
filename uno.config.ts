@@ -5,7 +5,6 @@ export default defineConfig({
     presetWind4({
       dark: 'class',
       preflights: {
-        theme: true,
         reset: true,
       },
     }),
