@@ -16,6 +16,7 @@ const {
   languageDetectorStatus,
   translatorStatus,
   sourceText,
+  sourceLanguage,
   isTranslating,
   translateResult,
   languageDetectionList,
@@ -61,7 +62,7 @@ const { textarea } = useTextareaAutosize({ styleProp: 'height', input: sourceTex
             </div>
           </h1>
           <div class="p-4 pt-0 overflow-y-auto text-xl flex flex-col gap-3">
-            <div class="f-ring lh-[normal] text-sm p-3 flex flex-col gap-2 select-none items-start justify-center rounded-xl!">
+            <div v-if="languageDetectionList?.length && sourceLanguage === 'auto'" class="f-ring lh-[normal] text-sm p-3 flex flex-col gap-2 select-none items-start justify-center rounded-xl!">
               <h1>
                 语言检测置信度
               </h1>
