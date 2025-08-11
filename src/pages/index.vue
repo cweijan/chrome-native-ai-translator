@@ -3,7 +3,9 @@ import { useTextareaAutosize } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import DouProgress from '@/components/base/DouProgress.vue'
+import CopyButton from '@/components/CopyButton.vue'
 import SourceSelect from '@/components/SourceSelect.vue'
+import SpeechButton from '@/components/SpeechButton.vue'
 import TargetSelect from '@/components/TargetSelect.vue'
 import { getLangLabel } from '@/constants/lang'
 import { useTranslatorStore } from '@/stores/translator'
@@ -17,6 +19,8 @@ const {
   translatorStatus,
   sourceText,
   sourceLanguage,
+  realSourceLanguage,
+  targetLanguage,
   isTranslating,
   translateResult,
   languageDetectionList,
@@ -29,6 +33,10 @@ const disabledTextarea = computed(() => {
 })
 
 const { textarea } = useTextareaAutosize({ styleProp: 'height', input: sourceText })
+
+const replacedTranslationResult = computed(() => {
+  return (translateResult?.value?.result || '').replace(/<br>/g, '\n')
+})
 </script>
 
 <template>
@@ -39,16 +47,20 @@ const { textarea } = useTextareaAutosize({ styleProp: 'height', input: sourceTex
     </div>
     <template v-else>
       <div class="flex flex-col gap-4 items-start relative md:flex-row">
-        <div class="f-ring flex flex-col gap-4 w-full md:w-1/2 max-h-60dvh min-h-250px h-fit">
-          <div class="toolbar flex gap-2 items-center px-4 pt-4">
-            <SourceSelect />
-            <div class="i-mingcute-arrow-right-line" />
-            <TargetSelect />
+        <div class="f-ring flex flex-col gap-4 w-full md:w-1/2 max-h-60dvh min-h-250px h-fit min-w-0">
+          <div class="toolbar flex gap-2 items-center px-4 pt-4 min-w-0">
+            <SourceSelect class="flex-shrink min-w-0" />
+            <div class="i-mingcute-arrow-right-line flex-shrink-0" />
+            <TargetSelect class="flex-shrink min-w-0" />
           </div>
           <textarea
             ref="textarea" v-model="sourceText" :disabled="disabledTextarea" name="input"
-            placeholder="请输入需要翻译的文本" class="outline-none w-full resize-none px-4 pb-4 text-xl"
+            placeholder="请输入需要翻译的文本" class="outline-none w-full resize-none px-4 text-xl flex-grow"
           />
+          <div class="toolbar flex gap-2 items-center px-4 pb-4 justify-end">
+            <SpeechButton :text="sourceText" :lang="realSourceLanguage" />
+            <CopyButton :text="sourceText" />
+          </div>
         </div>
 
         <div class="f-ring flex flex-col max-h-60dvh w-full md:w-1/2">
@@ -61,13 +73,19 @@ const { textarea } = useTextareaAutosize({ styleProp: 'height', input: sourceTex
               {{ translateResult?.duration?.toFixed(2) }} ms
             </div>
           </h1>
-          <div class="p-4 pt-0 overflow-y-auto text-xl flex flex-col gap-3">
-            <div v-if="languageDetectionList?.length && sourceLanguage === 'auto'" class="f-ring lh-[normal] text-sm p-3 flex flex-col gap-2 select-none items-start justify-center rounded-xl!">
+          <div class="p-4 pt-0 overflow-y-auto text-xl flex flex-col gap-4">
+            <div
+              v-if="languageDetectionList?.length && sourceLanguage === 'auto'"
+              class="f-ring lh-[normal] text-sm p-3 flex flex-col gap-2 select-none items-start justify-center rounded-xl!"
+            >
               <h1>
                 语言检测置信度
               </h1>
               <div class="flex overflow-y-auto gap-1 min-w-100% w-0 flex-grow">
-                <div v-for="item in languageDetectionList" :key="item.detectedLanguage" class="f-ring lh-[normal] text-xs px-2 flex flex-col rounded-lg!">
+                <div
+                  v-for="item in languageDetectionList" :key="item.detectedLanguage"
+                  class="f-ring lh-[normal] text-xs px-2 flex flex-col rounded-lg!"
+                >
                   <p class="whitespace-nowrap">
                     {{ getLangLabel(item.detectedLanguage) }}
                   </p>
@@ -121,7 +139,10 @@ const { textarea } = useTextareaAutosize({ styleProp: 'height', input: sourceTex
                       ({{ ((translatorStatus?.progress || 0) * 100).toFixed(2) }}%)
                     </template>
                   </div>
-                  <DouProgress v-if="!translatorStatus?.noNeedToDownload" :progress="(translatorStatus?.progress || 0) * 100" />
+                  <DouProgress
+                    v-if="!translatorStatus?.noNeedToDownload"
+                    :progress="(translatorStatus?.progress || 0) * 100"
+                  />
                 </div>
               </template>
               <template v-else-if="translatorStatus?.status === 'error'">
@@ -141,9 +162,15 @@ const { textarea } = useTextareaAutosize({ styleProp: 'height', input: sourceTex
               >
                 {{ translateResult?.error?.message }}
               </div>
-              <div v-else class="whitespace-pre-wrap">
-                {{ (translateResult?.result || '...').replace(/<br>/g, '\n') }}
-              </div>
+              <template v-else>
+                <div class="whitespace-pre-wrap">
+                  {{ replacedTranslationResult || '...' }}
+                </div>
+                <div class="toolbar flex gap-2 items-center justify-end pt-4 text-base">
+                  <SpeechButton :text="replacedTranslationResult" :lang="targetLanguage" />
+                  <CopyButton :text="replacedTranslationResult" />
+                </div>
+              </template>
             </template>
           </div>
         </div>

@@ -98,7 +98,7 @@ const open = ref(false)
   --uno: transition duration-100;
 
   .label {
-    --uno: flex-grow min-w-0 whitespace-nowrap;
+    --uno: flex-grow min-w-0 whitespace-nowrap text-ellipsis overflow-hidden;
   }
 }
 
@@ -122,7 +122,7 @@ const open = ref(false)
   --uno: shadow-lg shadow-dark/3 dark:shadow-light/3;
 
   .popup-label {
-    --uno: m-1 py-1 ps-2 pe-3 min-w-30 min-w-0;
+    --uno: m-1 py-1 ps-2 pe-3 min-w-30 min-w-0 whitespace-nowrap;
     --uno: rounded-lg;
     --uno: transition-colors;
     --uno: cursor-pointer;
