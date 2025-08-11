@@ -2,13 +2,16 @@
 import { useTextareaAutosize } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import DouProgress from '@/components/base/DouProgress.vue'
 import CopyButton from '@/components/CopyButton.vue'
 import SourceSelect from '@/components/SourceSelect.vue'
 import SpeechButton from '@/components/SpeechButton.vue'
 import TargetSelect from '@/components/TargetSelect.vue'
-import { getLangLabel } from '@/constants/lang'
+import { useDisplayName } from '@/composables/useDisplayName'
 import { useTranslatorStore } from '@/stores/translator'
+
+const displayName = useDisplayName()
 
 const translatorStore = useTranslatorStore()
 
@@ -37,13 +40,15 @@ const { textarea } = useTextareaAutosize({ styleProp: 'height', input: sourceTex
 const replacedTranslationResult = computed(() => {
   return (translateResult?.value?.result || '').replace(/<br>/g, '\n')
 })
+
+const { t } = useI18n()
 </script>
 
 <template>
   <div class="mx-auto mt-2 flex flex-col gap-4 max-w-1280px">
     <div class="h-20px md:h-30px" />
     <div v-if="!isTranslatorSupported" class="error-container f-ring">
-      不支持当前浏览器，请尝试使用 Google Chrome 138 及以上的版本
+      {{ t('browser_not_support') }}
     </div>
     <template v-else>
       <div class="flex flex-col gap-4 items-start relative md:flex-row">
@@ -55,7 +60,7 @@ const replacedTranslationResult = computed(() => {
           </div>
           <textarea
             ref="textarea" v-model="sourceText" :disabled="disabledTextarea" name="input"
-            placeholder="请输入需要翻译的文本" class="outline-none w-full resize-none px-4 text-xl flex-grow"
+            :placeholder="t('input_placeholder')" class="outline-none w-full resize-none px-4 text-xl flex-grow"
           />
           <div class="toolbar flex gap-2 items-center px-4 pb-4 justify-end">
             <SpeechButton :text="sourceText" :lang="realSourceLanguage" />
@@ -67,7 +72,7 @@ const replacedTranslationResult = computed(() => {
           <h1
             class="text-2xl font-light p-4 flex select-none items-center justify-between text-dark-500/50 dark:text-light-300/50"
           >
-            翻译结果
+            {{ t('translate_result') }}
             <div v-if="isTranslating" class="i-mingcute-loading-3-line animate-spin" />
             <div v-else-if="translateResult?.duration" class="text-sm text-gray-400 dark:text-gray-500">
               {{ translateResult?.duration?.toFixed(2) }} ms
@@ -79,7 +84,7 @@ const replacedTranslationResult = computed(() => {
               class="f-ring lh-[normal] text-sm p-3 flex flex-col gap-2 select-none items-start justify-center rounded-xl!"
             >
               <h1>
-                语言检测置信度
+                {{ t('language_detection_confidence') }}
               </h1>
               <div class="flex overflow-y-auto gap-1 min-w-100% w-0 flex-grow">
                 <div
@@ -87,7 +92,7 @@ const replacedTranslationResult = computed(() => {
                   class="f-ring lh-[normal] text-xs px-2 flex flex-col rounded-lg!"
                 >
                   <p class="whitespace-nowrap">
-                    {{ getLangLabel(item.detectedLanguage) }}
+                    {{ displayName.getLabel(item.detectedLanguage) }}
                   </p>
                   <p class="whitespace-nowrap opacity-50">
                     {{ (item.confidence * 100).toPrecision(4) }}%
@@ -100,13 +105,13 @@ const replacedTranslationResult = computed(() => {
               class="f-ring lh-[normal] text-sm p-3 flex flex-col gap-2 select-none items-center justify-center rounded-xl!"
             >
               <template v-if="!isLanguageDetectorSupported">
-                你的浏览器不支持自动检测源语言
+                {{ t('browser_not_support_language_detection') }}
               </template>
               <template v-else-if="languageDetectorStatus?.status === 'downloading'">
                 <div class="flex flex-col gap-4 items-center">
                   <div class="flex gap-2 items-center">
                     <div class="i-mingcute-loading-3-line animate-spin text-lg" />
-                    正在下载语言检测模型... ({{ ((languageDetectorStatus?.progress || 0) * 100).toFixed(2) }}%)
+                    {{ t('language_detection_model_downloading') }} ({{ ((languageDetectorStatus?.progress || 0) * 100).toFixed(2) }}%)
                   </div>
                   <DouProgress :progress="(languageDetectorStatus?.progress || 0) * 100" />
                 </div>
@@ -115,7 +120,7 @@ const replacedTranslationResult = computed(() => {
                 <div class="flex flex-col gap-4 items-center">
                   <div class="flex gap-2 items-center">
                     <div class="i-mingcute-warning-line text-lg" />
-                    语言检测模型加载失败
+                    {{ t('language_detection_model_download_failed') }}
                   </div>
                   {{ languageDetectorStatus?.error?.message }}
                 </div>
@@ -128,13 +133,14 @@ const replacedTranslationResult = computed(() => {
               <template v-if="translatorStatus?.status === 'downloading'">
                 <div class="flex flex-col gap-4 items-center">
                   <div>
-                    {{ getLangLabel(translatorStatus?.sourceLanguage) }} -> {{
-                      getLangLabel(translatorStatus?.targetLanguage)
+                    {{ displayName.getLabel(translatorStatus?.sourceLanguage) }} -> {{
+                      displayName.getLabel(translatorStatus?.targetLanguage)
                     }}
                   </div>
                   <div class="flex gap-2 items-center">
                     <div class="i-mingcute-loading-3-line animate-spin text-lg" />
-                    正在{{ translatorStatus?.noNeedToDownload ? '加载' : '下载' }}翻译模型...
+                    {{
+                      translatorStatus?.noNeedToDownload ? t('translator_model_loading') : t('translator_model_downloading') }}
                     <template v-if="!translatorStatus?.noNeedToDownload">
                       ({{ ((translatorStatus?.progress || 0) * 100).toFixed(2) }}%)
                     </template>
@@ -149,7 +155,7 @@ const replacedTranslationResult = computed(() => {
                 <div class="flex flex-col gap-4 items-center">
                   <div class="flex gap-2 items-center">
                     <div class="i-mingcute-warning-line text-lg" />
-                    翻译模型加载失败
+                    {{ t('translator_model_download_failed') }}
                   </div>
                   {{ translatorStatus?.error?.message }}
                 </div>

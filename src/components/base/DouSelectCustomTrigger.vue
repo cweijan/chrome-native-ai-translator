@@ -5,8 +5,6 @@ import {
   SelectItemText,
   SelectPortal,
   SelectRoot,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
   SelectTrigger,
   SelectValue,
   SelectViewport,
@@ -23,11 +21,11 @@ defineProps<{
   label?: string
   placeholder?: string
   disabled?: boolean
-  small?: boolean
 }>()
 
 defineSlots<{
   default: (props: { index: number, value: T, label: string, disabled?: boolean, extra?: U }) => any
+  trigger: (props: { value: T }) => any
 }>()
 
 const modelValue = defineModel<T>({ required: true })
@@ -40,31 +38,19 @@ const open = ref(false)
     <SelectTrigger
       v-bind="$attrs" class="select-wrapper" :class="{
         active: open,
-        small,
       }" :aria-label="label"
     >
       <SelectValue :placeholder="placeholder" class="label" :disabled="disabled">
-        <template v-for="option, index of options" :key="option.value">
+        <template v-for="option of options" :key="option.value">
           <template v-if="modelValue === option.value">
-            <template v-if="!$slots.default">
-              {{ option.label }}
-            </template>
-            <slot
-              v-else :value="option.value" :label="option.label" :disabled="option.disabled" :extra="option.extra"
-              :index="index"
-            />
+            <slot name="trigger" :value="modelValue" />
           </template>
         </template>
       </SelectValue>
-      <div class="i-mingcute-down-line" />
     </SelectTrigger>
     <SelectPortal>
       <Transition name="trans-fade">
-        <SelectContent v-if="open" :body-lock="true" class="popup-wrapper" :side-offset="5" :class="{ small }">
-          <SelectScrollUpButton class="scroll-button">
-            <div class="i-mingcute-up-fill" />
-          </SelectScrollUpButton>
-
+        <SelectContent v-if="open" :body-lock="true" class="popup-wrapper" :side-offset="5">
           <SelectViewport class="popup-content">
             <template v-for="option, index of options" :key="option.value">
               <SelectItem :value="option.value" class="popup-label" :disabled="option.disabled">
@@ -80,10 +66,6 @@ const open = ref(false)
               </SelectItem>
             </template>
           </SelectViewport>
-
-          <SelectScrollDownButton class="scroll-button">
-            <div class="i-mingcute-down-fill" />
-          </SelectScrollDownButton>
         </SelectContent>
       </Transition>
     </SelectPortal>
@@ -92,20 +74,13 @@ const open = ref(false)
 
 <style lang="scss" scoped>
 .select-wrapper {
-  --uno: flex items-center gap-1 text-sm cursor-pointer select-none;
-  --uno: ps-3 pe-2 py-1.5;
-  --uno: rounded-lg bg-light-400 dark:bg-dark-800;
-  --uno: border-1 border-dark/20 dark:border-light/20;
-  --uno: shadow-lg shadow-dark/3 dark:shadow-light/3;
+  --uno: text-lg cursor-pointer select-none;
   --uno: transition duration-100;
 
   .label {
     --uno: flex-grow min-w-0 whitespace-nowrap text-ellipsis overflow-hidden;
   }
 
-  &.small {
-    --uno: text-xs py-1px ps-2 pe-1;
-  }
 }
 
 .trans-fade-enter-active,
@@ -128,7 +103,7 @@ const open = ref(false)
   --uno: shadow-lg shadow-dark/3 dark:shadow-light/3;
 
   .popup-label {
-    --uno: m-1 py-1 ps-2 pe-3 min-w-30 min-w-0 whitespace-nowrap;
+    --uno: m-1 py-1px ps-2 pe-2 min-w-30 min-w-0 whitespace-nowrap;
     --uno: rounded-lg;
     --uno: transition-colors;
     --uno: cursor-pointer;
@@ -149,24 +124,12 @@ const open = ref(false)
   }
 
   .popup-content {
-    --uno: text-base;
+    --uno: text-sm;
   }
 
   .scroll-button {
-    --uno: h-25px flex cursor-default items-center justify-center;
+    --uno: h-20px flex cursor-default items-center justify-center;
     --uno: bg-transparent;
-  }
-
-  &.small {
-    --uno: text-xs;
-
-    .popup-label {
-      --uno: py-1px ps-2 pe-2 text-sm;
-    }
-
-    .scroll-button {
-      --uno: h-20px;
-    }
   }
 }
 </style>

@@ -1,5 +1,6 @@
+import path from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
-
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import UnoCSS from 'unocss/vite'
@@ -14,6 +15,11 @@ export default defineConfig({
     vueJsx(),
     vueDevTools(),
     UnoCSS(),
+    VueI18nPlugin({
+      include: [path.resolve(__dirname, './src/locales/**.json')],
+      strictMessage: false,
+      dropMessageCompiler: true,
+    }),
     Unfont({
       fontsource: {
         families: [

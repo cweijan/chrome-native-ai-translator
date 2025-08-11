@@ -1,0 +1,28 @@
+{
+  "browser_not_support": "不支持当前浏览器，请尝试使用 Google Chrome 138 及以上的版本",
+  "input_placeholder": "请输入需要翻译的文本",
+  "translate_result": "翻译结果",
+  "language_detection_confidence": "语言检测置信度",
+  "browser_not_support_language_detection": "你的浏览器不支持自动检测源语言",
+  "language_detection_model_downloading": "正在下载语言检测模型...",
+  "language_detection_model_download_failed": "语言检测模型加载失败",
+  "translator_model_loading": "正在加载翻译模型...",
+  "translator_model_downloading": "正在下载翻译模型...",
+  "translator_model_download_failed": "翻译模型加载失败",
+  "lang_pair_not_supported": "不支持 {sourceLang} 到 {targetLang} 的翻译",
+  "language_detection_failed": "无法自动识别输入语言",
+  "auto_detect": "自动检测",
+  "auto_detect_with_lang": "自动检测 ({lang})",
+  "copy": "复制",
+  "copied": "已复制",
+  "listen": "朗读",
+  "stop": "停止",
+  "source_language": "源语言...",
+  "target_language": "目标语言...",
+  "unknown_language": "未知语言",
+  "color_mode": {
+    "light": "亮色模式",
+    "dark": "暗色模式",
+    "system": "跟随系统"
+  }
+}

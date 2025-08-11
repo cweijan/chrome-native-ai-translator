@@ -1,7 +1,9 @@
 import { useThrottleFn } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { getLangLabel } from '@/constants/lang'
+import { useI18n } from 'vue-i18n'
+
+let _t: ReturnType<typeof useI18n>['t'] | undefined
 
 interface TranslatorStatusItem {
   sourceLanguage: string
@@ -25,6 +27,10 @@ interface LanguageDetectorStatusItem {
 }
 
 export const useTranslatorStore = defineStore('translator', () => {
+  if (!_t) {
+    _t = useI18n().t
+  }
+  const t = _t
   const isTranslatorSupported = ref('Translator' in globalThis)
   const isLanguageDetectorSupported = ref('LanguageDetector' in globalThis)
   const translatorStatus = ref<TranslatorStatusItem>()
@@ -196,7 +202,7 @@ export const useTranslatorStore = defineStore('translator', () => {
         // 未知语言
         sourceLanguage = 'und'
         translateResult.value = {
-          error: new Error('无法自动识别输入语言'),
+          error: new Error(t('language_detection_failed')),
           result: '',
         }
       }
@@ -279,7 +285,10 @@ export const useTranslatorStore = defineStore('translator', () => {
         sourceLanguage: _realSourceLanguage.value,
         targetLanguage: _targetLanguage.value,
         status: 'error',
-        error: new Error(`不支持 ${getLangLabel(_realSourceLanguage.value)} 到 ${getLangLabel(_targetLanguage.value)} 的翻译`),
+        error: new Error(t('lang_pair_not_supported', {
+          sourceLang: _realSourceLanguage.value,
+          targetLang: _targetLanguage.value,
+        })),
       }
     }
     else if (status === 'downloading' || status === 'downloadable' || status === 'available') {
