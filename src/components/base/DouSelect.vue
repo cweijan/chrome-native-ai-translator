@@ -47,7 +47,10 @@ const open = ref(false)
             <template v-if="!$slots.default">
               {{ option.label }}
             </template>
-            <slot v-else :value="option.value" :label="option.label" :disabled="option.disabled" :extra="option.extra" :index="index" />
+            <slot
+              v-else :value="option.value" :label="option.label" :disabled="option.disabled" :extra="option.extra"
+              :index="index"
+            />
           </template>
         </template>
       </SelectValue>
@@ -67,7 +70,10 @@ const open = ref(false)
                   <template v-if="!$slots.default">
                     {{ option.label }}
                   </template>
-                  <slot v-else :value="option.value" :label="option.label" :disabled="option.disabled" :extra="option.extra" :index="index" />
+                  <slot
+                    v-else :value="option.value" :label="option.label" :disabled="option.disabled"
+                    :extra="option.extra" :index="index"
+                  />
                 </SelectItemText>
               </SelectItem>
             </template>
@@ -84,9 +90,11 @@ const open = ref(false)
 
 <style lang="scss" scoped>
 .select-wrapper {
-  --uno: flex items-center gap-1 text-base cursor-pointer select-none;
+  --uno: flex items-center gap-1 text-sm cursor-pointer select-none;
   --uno: ps-3 pe-2 py-1.5;
-  --uno: rounded-full bg-orange-200 dark:bg-orange-500/20;
+  --uno: rounded-lg bg-light-400 dark:bg-dark-800;
+  --uno: border-1 border-dark/20 dark:border-light/20;
+  --uno: shadow-lg shadow-dark/3 dark:shadow-light/3;
   --uno: transition duration-100;
 
   .label {
@@ -106,28 +114,31 @@ const open = ref(false)
 }
 
 :deep(.popup-wrapper) {
-  --uno: ring-1 bg-white dark:bg-black rounded-2xl;
   --uno: z-10 select-none max-w-90vw;
   --uno: overflow-hidden;
-  --uno: shadow-2xl shadow-black/20 dark:shadow-white/30;
+  --uno: rounded-xl bg-light-500/40 dark:bg-dark-400/40;
+  --uno: backdrop-blur-md;
+  --uno: border-1 border-dark/20 dark:border-light/20;
+  --uno: shadow-lg shadow-dark/3 dark:shadow-light/3;
 
   .popup-label {
     --uno: m-1 py-1 ps-2 pe-3 min-w-30 min-w-0;
-    --uno: rounded-xl;
+    --uno: rounded-lg;
     --uno: transition-colors;
     --uno: cursor-pointer;
 
     &[data-disabled] {
-      --uno: text-gray-500 dark:text-gray-400;
+      --uno: opacity-50;
       --uno: cursor-not-allowed;
     }
 
     &[data-highlighted] {
-      --uno: bg-orange-500/15 dark:bg-orange-500/40 outline-none;
+      --uno: bg-dark-300/5 dark:bg-light-300/5 outline-none;
     }
 
     &.popup-label[data-state="checked"] {
-      --uno: bg-orange-900/80 text-white;
+      --uno: from-light-200 to-light-50 bg-linear-to-t dark:from-dark-800 dark:to-dark-400;
+      --uno: border-1 border-dark/20 dark:border-light/20;
     }
   }
 
@@ -137,6 +148,7 @@ const open = ref(false)
 
   .scroll-button {
     --uno: h-25px flex cursor-default items-center justify-center;
+    --uno: bg-transparent;
   }
 }
 </style>

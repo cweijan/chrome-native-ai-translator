@@ -7,9 +7,9 @@ useDarkMode()
 
 <template>
   <header class="select-none flex  justify-between items-center">
-    <h1 class="text-xl md:text-3xl text-orange-500 font-600 flex items-center gap-0.5em">
-      <div class="bg-current p-1.5 rounded-lg">
-        <Logo :stroke-width="1.5" class="text-0.875em text-white dark:text-dark-900" />
+    <h1 class="text-xl md:text-3xl text-dark-500/80 dark:text-light-50/80 flex items-center gap-0.5em">
+      <div class="p-1.5 rounded-lg ring-1 text-current ring-dark-500/20 dark:ring-light-300/20 bg-white/30 dark:bg-dark-700/30 backdrop-blur-md shadow-xl shadow-dark-500/8 dark:shadow-light-500/8">
+        <Logo :stroke-width="1.25" class="text-0.875em" />
       </div>
       Fancy Translator
     </h1>

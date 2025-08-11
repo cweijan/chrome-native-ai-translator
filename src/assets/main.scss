@@ -1,13 +1,11 @@
 @use 'base.scss';
 
 body {
-  --uno: bg-orange-50 text-orange-900;
-  --hover-background: theme('colors.orange.400/0.2');
+  --uno: bg-stone-100 text-stone-600;
 }
 
 .dark body {
-  --uno: bg-dark-900 text-orange-300/70;
-  --hover-background: theme('colors.orange.200/0.2');
+  --uno: bg-dark-800 text-light-200;
 }
 
 .dark .bg {
@@ -39,21 +37,19 @@ a {
   position: relative;
 
   &::before {
-    content: '';
-    position: absolute;
-    bottom: -0.1em;
+    --uno: will-change-transform;
+    --uno: content-[''] absolute;
+    --uno: bg-current z--1 rounded-full;
+    --uno: transition transform-gpu scale-x-25 origin-right opacity-30;
+    bottom: -0.05em;
     left: -0.15em;
     width: calc(100% + 0.3em);
-    height: 0.15em;
-    background-color: var(--hover-background);
-    z-index: -1;
-    border-radius: 0.4em;
-    transition: height 0.15s cubic-bezier(0.15, 0.32, 0.48, 1.27);
+    height: 0.07em;
   }
 
   &:hover {
     &::before {
-      height: calc(100% + 0.25em);
+      --uno: scale-x-100 opacity-100;
     }
   }
 }

@@ -12,10 +12,10 @@ defineProps<{
 <template>
   <ProgressRoot
     :model-value="progress"
-    class="rounded-full bg-white h-3 w-[250px] ring-1 ring-orange-500/40 relative overflow-hidden dark:bg-stone-950 dark:ring-orange-300/30"
+    class="rounded-full bg-white h-2 w-[250px] border-1 border-dark-500/40 relative overflow-hidden dark:bg-stone-950 dark:border-light-300/30"
   >
     <ProgressIndicator
-      class="indicator rounded-full bg-orange-500/80 h-full w-full block transition-transform duration-[660ms] ease-[cubic-bezier(0.65,0,0.35,1)] relative overflow-hidden"
+      class="indicator rounded-full bg-dark-500/50 dark:bg-dark-500/80 h-full w-full block transition-transform duration-[660ms] ease-[cubic-bezier(0.65,0,0.35,1)] relative overflow-hidden"
       :style="`transform: translateX(-${100 - progress}%)`"
     />
   </ProgressRoot>
