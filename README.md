@@ -2,11 +2,13 @@
 
 Fancy Translator uses the Translator API to provide fast, secure translations that run entirely in the browser.
 
+[中文README](README_zh.md)
+
 > Requires Google Chrome v138 (stable) or higher.
 
 > Threw this together in two hours. There are likely many bugs, and I’ll fix them slowly afterward. 🐦
 
-在线demo：[https://translate.daidr.me/](https://translate.daidr.me/)
+Try it out: [https://translate.daidr.me/](https://translate.daidr.me/)
 
 ## Development
 

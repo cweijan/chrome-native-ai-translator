@@ -2,6 +2,8 @@
 
 Fancy Translator 是一个完全在浏览器本地运行的翻译工具，利用 Translator API 提供快速、安全的浏览器端翻译服务。
 
+[English Version](README.md)
+
 > 需要 Google Chrome v138 及以上的版本才能够正常运行
 
 > 俩小时糊出来的，感觉会有很多 Bug，之后慢慢修 🐦
