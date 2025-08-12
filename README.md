@@ -2,41 +2,35 @@
 
 Fancy Translator uses the Translator API to provide fast, secure translations that run entirely in the browser.
 
-> 俩小时糊出来的，感觉会有很多 Bug，之后慢慢修
+> Requires Google Chrome v138 (stable) or higher.
 
-https://translate.daidr.me/
+> Threw this together in two hours. There are likely many bugs, and I’ll fix them slowly afterward. 🐦
 
-## Recommended IDE Setup
+在线demo：[https://translate.daidr.me/](https://translate.daidr.me/)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Development
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+### Install Dependencies
 
 ```sh
-bun install
+bun i
 ```
 
-### Compile and Hot-Reload for Development
+### Start Development Server
 
 ```sh
 bun dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Build Production Artifacts
 
 ```sh
 bun run build
 ```
 
-### Migrate ESLint Config to Oxlint
+### Migrate ESLint to Oxlint
+
+> This needs to be run after any ESLint configuration changes.
 
 ```sh
 bun lint:migrate
@@ -47,3 +41,15 @@ bun lint:migrate
 ```sh
 bun lint
 ```
+
+## License
+
+[MIT License](LICENSE)
+
+## Sponsors
+
+> Thank you for your support!
+
+<picture>
+  <img src="https://github.com/daidr/static/blob/main/sponsors.png?raw=true" alt="Sponsors" width="100%">
+</picture>
