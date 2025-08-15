@@ -27,12 +27,14 @@ async function close() {
         {{ $t('reload_prompt.message') }}
       </span>
     </div>
-    <DouButton type="primary" small @click="updateServiceWorker()">
-      {{ $t('reload_prompt.reload') }}
-    </DouButton>
-    <DouButton type="primary" small @click="close">
-      {{ $t('reload_prompt.close') }}
-    </DouButton>
+    <div class="flex gap-2">
+      <DouButton v-if="needRefresh" type="primary" small @click="updateServiceWorker()">
+        {{ $t('reload_prompt.reload') }}
+      </DouButton>
+      <DouButton type="primary" small @click="close">
+        {{ $t('reload_prompt.close') }}
+      </DouButton>
+    </div>
   </div>
 </template>
 
