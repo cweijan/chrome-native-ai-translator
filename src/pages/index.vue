@@ -52,15 +52,15 @@ const { t } = useI18n()
     </div>
     <template v-else>
       <div class="flex flex-col gap-4 items-start relative md:flex-row">
-        <div class="f-ring flex flex-col gap-4 w-full md:w-1/2 max-h-60dvh min-h-250px h-fit min-w-0">
+        <div class="f-ring flex flex-col gap-4 w-full md:w-1/2 max-h-60dvh min-h-180px h-fit min-w-0">
           <div class="toolbar flex gap-2 items-center px-4 pt-4 min-w-0">
             <SourceSelect class="flex-shrink min-w-0" />
             <div class="i-mingcute-arrow-right-line flex-shrink-0" />
             <TargetSelect class="flex-shrink min-w-0" />
           </div>
           <textarea
-            ref="textarea" v-model="sourceText" :disabled="disabledTextarea" name="input"
-            :placeholder="t('input_placeholder')" class="outline-none w-full resize-none px-4 text-xl flex-grow"
+            ref="textarea" v-model="sourceText" :disabled="disabledTextarea" name="input" row="1"
+            :placeholder="t('input_placeholder')" class="outline-none w-full resize-none px-4 text-xl flex-grow min-h-0"
           />
           <div class="toolbar flex gap-2 items-center px-4 pb-4 justify-end">
             <SpeechButton :text="sourceText" :lang="realSourceLanguage" />
@@ -68,7 +68,7 @@ const { t } = useI18n()
           </div>
         </div>
 
-        <div class="f-ring flex flex-col max-h-60dvh w-full md:w-1/2">
+        <div class="f-ring flex flex-col max-h-60dvh min-h-180px w-full md:w-1/2">
           <h1
             class="text-2xl font-light p-4 flex select-none items-center justify-between text-dark-500/50 dark:text-light-300/50"
           >
