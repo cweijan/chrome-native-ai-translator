@@ -38,8 +38,8 @@ export default defineConfig({
       },
     }),
     VitePWA({
-      strategies: 'injectManifest',
-      registerType: 'autoUpdate',
+      strategies: 'generateSW',
+      registerType: 'prompt',
       manifest: {
         start_url: '/',
         display: 'standalone',
@@ -62,6 +62,9 @@ export default defineConfig({
         // display_override: ['window-controls-overlay'],
       },
       disable: !isVercelProduction,
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,woff,woff2,svg,webp}'],
+      },
     }),
   ],
   resolve: {

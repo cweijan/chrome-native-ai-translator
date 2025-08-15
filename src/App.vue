@@ -2,6 +2,7 @@
 import ColorModeSwitcher from './components/ColorModeSwitcher.vue'
 import LangSwitcher from './components/LangSwitcher.vue'
 import Logo from './components/logo.vue'
+import ReloadPrompt from './components/ReloadPrompt.vue'
 import { useDarkMode } from './composables/useDarkMode'
 
 useDarkMode()
@@ -51,6 +52,7 @@ useDarkMode()
       </p>
     </div>
   </footer>
+  <ReloadPrompt />
 </template>
 
 <style scoped></style>

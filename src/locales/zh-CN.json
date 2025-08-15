@@ -24,5 +24,11 @@
     "light": "亮色模式",
     "dark": "暗色模式",
     "system": "跟随系统"
+  },
+  "reload_prompt": {
+    "ready": "Fancy Translator 已离线可用",
+    "message": "有新内容可用，点击刷新按钮进行更新",
+    "reload": "刷新",
+    "close": "关闭"
   }
 }

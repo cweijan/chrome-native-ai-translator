@@ -1,9 +1,11 @@
 <script setup lang="ts">
-
+defineProps<{
+  small?: boolean
+}>()
 </script>
 
 <template>
-  <button>
+  <button :class="{ small }">
     <slot />
   </button>
 </template>
@@ -16,6 +18,10 @@ button {
   --uno: shadow-lg shadow-dark/3 dark:shadow-light/3;
   --uno: transition duration-100 will-change-transform;
 
+  &.small {
+    --uno: py-1 px-2 text-sm;
+  }
+
   &:hover {
     --uno: bg-light-700 dark:bg-dark-200;
   }
@@ -25,7 +31,7 @@ button {
   }
 
   &:disabled {
-    --uno: scale-100 opacity-50 cursor-not-allowed  pointer-events-none bg-light-400 dark:bg-dark-800;
+    --uno: scale-100 opacity-50 cursor-not-allowed pointer-events-none bg-light-400 dark:bg-dark-800;
   }
 }
 </style>
