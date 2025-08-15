@@ -1,4 +1,6 @@
 import path from 'node:path'
+import process from 'node:process'
+
 import { fileURLToPath, URL } from 'node:url'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import vue from '@vitejs/plugin-vue'
@@ -6,11 +8,16 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import UnoCSS from 'unocss/vite'
 import Unfont from 'unplugin-fonts/vite'
 import { defineConfig } from 'vite'
+import { VitePWA } from 'vite-plugin-pwa'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import htmlPlugin from './plugins/html-plugin'
+
+const isVercelProduction = process.env.VERCEL_ENV === 'production'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    htmlPlugin(),
     vue(),
     vueJsx(),
     vueDevTools(),
@@ -29,6 +36,32 @@ export default defineConfig({
           },
         ],
       },
+    }),
+    VitePWA({
+      strategies: 'injectManifest',
+      registerType: 'autoUpdate',
+      manifest: {
+        start_url: '/',
+        display: 'standalone',
+        name: 'Fancy Translator',
+        short_name: 'Fancy Translator',
+        icons: [
+          {
+            src: '/web-app-manifest-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/web-app-manifest-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+        theme_color: '#ffffff',
+        background_color: '#ffffff',
+        // display_override: ['window-controls-overlay'],
+      },
+      disable: !isVercelProduction,
     }),
   ],
   resolve: {
