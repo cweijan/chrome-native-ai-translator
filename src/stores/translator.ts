@@ -36,12 +36,13 @@ export const useTranslatorStore = defineStore('translator', () => {
   const translatorStatus = ref<TranslatorStatusItem>()
   const languageDetectorStatus = ref<LanguageDetectorStatusItem>()
 
+  let firstTime = true
   const _sourceText = ref('')
   const languageDetectionList = ref<LanguageDetectionResult[]>([])
 
-  const _sourceLanguage = ref('')
+  const _sourceLanguage = ref(isLanguageDetectorSupported.value ? 'auto' : 'en')
   const _realSourceLanguage = ref('')
-  const _targetLanguage = ref('')
+  const _targetLanguage = ref('zh-Hans')
   const translateController = ref<AbortController>()
   const isTranslating = ref(false)
   const translateResult = ref<{
@@ -57,12 +58,14 @@ export const useTranslatorStore = defineStore('translator', () => {
   const sourceLanguage = computed({
     get: () => _sourceLanguage.value,
     set: (value) => {
+      firstTime = false
       updateLangPair({ sourceLanguage: value, targetLanguage: _targetLanguage.value })
     },
   })
   const targetLanguage = computed({
     get: () => _targetLanguage.value,
     set: (value) => {
+      firstTime = false
       updateLangPair({ sourceLanguage: _sourceLanguage.value, targetLanguage: value })
     },
   })
@@ -161,6 +164,10 @@ export const useTranslatorStore = defineStore('translator', () => {
   }
 
   async function translate(text: string) {
+    if (firstTime) {
+      firstTime = false
+      updateLangPair({ sourceLanguage: _sourceLanguage.value, targetLanguage: _targetLanguage.value })
+    }
     const start = performance.now()
     if (!text || !_sourceLanguage.value || !_targetLanguage.value) {
       isTranslating.value = false
@@ -328,11 +335,6 @@ export const useTranslatorStore = defineStore('translator', () => {
       }
     }
   }
-
-  updateLangPair({
-    sourceLanguage: isLanguageDetectorSupported.value ? 'auto' : 'en',
-    targetLanguage: 'zh-Hans',
-  })
 
   return {
     isTranslatorSupported,
