@@ -15,19 +15,19 @@ Try it out: [https://translate.daidr.me/](https://translate.daidr.me/)
 ### Install Dependencies
 
 ```sh
-bun i
+yarn
 ```
 
 ### Start Development Server
 
 ```sh
-bun dev
+yarn dev
 ```
 
 ### Build Production Artifacts
 
 ```sh
-bun run build
+yarn run build
 ```
 
 ### Migrate ESLint to Oxlint
@@ -35,13 +35,13 @@ bun run build
 > This needs to be run after any ESLint configuration changes.
 
 ```sh
-bun lint:migrate
+yarn lint:migrate
 ```
 
 ### Lint with [ESLint](https://eslint.org/) and [Oxlint](https://oxc.rs/docs/guide/usage/linter)
 
 ```sh
-bun lint
+yarn lint
 ```
 
 ## License

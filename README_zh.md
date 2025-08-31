@@ -15,19 +15,19 @@ Fancy Translator 是一个完全在浏览器本地运行的翻译工具，利用
 ### 安装依赖
 
 ```sh
-bun i
+yarn
 ```
 
 ### 启动 HMR 开发服务器
 
 ```sh
-bun dev
+yarn dev
 ```
 
 ### 产物构建
 
 ```sh
-bun run build
+yarn run build
 ```
 
 ### 将 ESLint 迁移到 Oxlint
@@ -35,13 +35,13 @@ bun run build
 > 每次 ESLint 配置更新后都需要运行
 
 ```sh
-bun lint:migrate
+yarn lint:migrate
 ```
 
 ### 使用 [ESLint](https://eslint.org/) 和 [Oxlint](https://oxc.rs/docs/guide/usage/linter) 进行代码检查
 
 ```sh
-bun lint
+yarn lint
 ```
 
 ## 开源协议
