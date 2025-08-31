@@ -43,8 +43,8 @@ export default defineConfig({
       manifest: {
         start_url: '/',
         display: 'standalone',
-        name: 'Fancy Translator',
-        short_name: 'Fancy Translator',
+        name: 'Native AI Translator',
+        short_name: 'Native AI Translator',
         icons: [
           {
             src: '/web-app-manifest-192x192.png',

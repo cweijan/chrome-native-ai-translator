@@ -1,6 +1,6 @@
-# Fancy Translator
+# Native AI Translator
 
-Fancy Translator 是一个完全在浏览器本地运行的翻译工具，利用 Translator API 提供快速、安全的浏览器端翻译服务。
+Native AI Translator 是一个完全在浏览器本地运行的翻译工具，利用 Translator API 提供快速、安全的浏览器端翻译服务。
 
 [English Version](README.md)
 

@@ -2,20 +2,19 @@
 import ColorModeSwitcher from './components/ColorModeSwitcher.vue'
 import LangSwitcher from './components/LangSwitcher.vue'
 import Logo from './components/logo.vue'
-import ReloadPrompt from './components/ReloadPrompt.vue'
 import { useDarkMode } from './composables/useDarkMode'
 
 useDarkMode()
 </script>
 
 <template>
-  <header class="select-none flex  justify-between items-center">
-    <h1 class="text-xl md:text-3xl text-dark-500/80 dark:text-light-50/80 flex items-center gap-0.5em">
-      <div
-        class="p-1.5 rounded-lg ring-1 text-current ring-dark-500/20 dark:ring-light-300/20 bg-white/30 dark:bg-dark-700/30 backdrop-blur-md shadow-xl shadow-dark-500/8 dark:shadow-light-500/8">
-        <Logo :stroke-width="1.25" class="text-0.875em" />
-      </div>
-      Native AI Translator
+  <header class="select-none flex justify-between items-center px-4 py-3.5"
+    style="border-bottom: 1px solid rgba(0, 0, 0, .12);">
+    <h1 class="text-xl md:text-2xl text-dark-500/80 dark:text-light-50/80 flex items-center gap-0.5em">
+      <span class="inline-flex gap-x-1">
+        <img src="/google.svg" alt="logo" width="74" height="24">
+        <span style="font-size: 22px;">翻译</span>
+      </span>
     </h1>
     <nav>
       <ul class="flex items-center gap-3 text-base md:text-xl">
@@ -33,21 +32,18 @@ useDarkMode()
     <router-view />
   </main>
   <footer class="flex justify-between select-none items-end">
-    <p class="px-2 whitespace-nowrap text-sm md:text-base">
-      <!-- Coded with ❤️ -->
-    </p>
+    <p class="px-2 whitespace-nowrap text-sm md:text-base" />
     <div class="px-2 flex gap-2 items-end text-sm md:text-base flex-col">
       <div class="flex gap-2">
         <ColorModeSwitcher />
         <LangSwitcher />
       </div>
       <p class="whitespace-nowrap">
-        &copy; {{ new Date().getFullYear() }} <a href="https://github.com/daidr" target="_blank"
-          rel="noopener">DAIDR</a>.
+        &copy; {{ new Date().getFullYear() }} <a href="https://github.com/cweijan" target="_blank"
+          rel="noopener">cweijan</a>
       </p>
     </div>
   </footer>
-  <ReloadPrompt />
 </template>
 
 <style scoped></style>

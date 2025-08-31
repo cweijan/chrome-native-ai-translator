@@ -11,17 +11,29 @@ const { t } = useI18n()
 
 const translatorStore = useTranslatorStore()
 
-const { targetLanguage } = storeToRefs(translatorStore)
+const { targetLanguage, isLanguageDetectorSupported } = storeToRefs(translatorStore)
 
 const displayName = useDisplayName()
 
 const options = computed(() => {
   const _displayName = displayName.value
+  const _isLanguageDetectorSupported = isLanguageDetectorSupported.value
+  const _targetLanguage = targetLanguage.value
   const finalOptions: {
     value: string
     label: string
     disabled?: boolean
   }[] = []
+
+  finalOptions.push({
+    label: _targetLanguage != 'auto'
+      ? `${t('auto_detect_with_lang', {
+        lang: _displayName.getLabel(_targetLanguage),
+      })}`
+      : t('auto_detect'),
+    value: 'auto',
+    disabled: !_isLanguageDetectorSupported,
+  })
 
   LANGUAGES.forEach((item) => {
     finalOptions.push({

@@ -25,8 +25,8 @@ export function useDisplayName() {
           return languageLabelCache.get(lang)!
         }
         const label = displayNames.of(lang)
-        languageLabelCache.set(lang, label ? `${label} <${lang}>` : lang)
-        return label ? `${label} <${lang}>` : lang
+        languageLabelCache.set(lang, label || lang)
+        return label || lang
       },
     }
   })

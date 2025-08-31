@@ -25,7 +25,6 @@
     "system": "System Mode"
   },
   "reload_prompt": {
-    "ready": "Fancy Translator ready to work offline",
     "message": "New content available, click on reload button to update.",
     "reload": "Reload",
     "close": "Close"

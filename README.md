@@ -1,6 +1,6 @@
-# Fancy Translator
+# Native AI Translator
 
-Fancy Translator uses the Translator API to provide fast, secure translations that run entirely in the browser.
+Native AI Translator uses the Translator API to provide fast, secure translations that run entirely in the browser.
 
 [中文README](README_zh.md)
 

@@ -37,135 +37,149 @@ const open = ref(false)
 
 <template>
   <SelectRoot v-model="modelValue" v-model:open="open" :disabled="disabled">
-    <SelectTrigger
-      v-bind="$attrs" class="select-wrapper" :class="{
-        active: open,
-        small,
-      }" :aria-label="label"
-    >
+    <SelectTrigger v-bind="$attrs" class="select-wrapper" :class="{
+      active: open,
+      small,
+    }" :aria-label="label">
       <SelectValue :placeholder="placeholder" class="label" :disabled="disabled">
         <template v-for="option, index of options" :key="option.value">
           <template v-if="modelValue === option.value">
             <template v-if="!$slots.default">
-              {{ option.label }}
+              <div class="flex items-center gap-2">
+                <div class="i-mingcute-translate-2-line text-blue-500 dark:text-blue-400" />
+                {{ option.label }}
+              </div>
             </template>
-            <slot
-              v-else :value="option.value" :label="option.label" :disabled="option.disabled" :extra="option.extra"
-              :index="index"
-            />
+            <slot v-else :value="option.value" :label="option.label" :disabled="option.disabled" :extra="option.extra"
+              :index="index" />
           </template>
         </template>
       </SelectValue>
-      <div class="i-mingcute-down-line" />
+      <div class="i-mingcute-down-line text-gray-500 dark:text-gray-400" :class="{ 'rotate-180': open }" />
     </SelectTrigger>
     <SelectPortal>
-      <Transition name="trans-fade">
-        <SelectContent v-if="open" :body-lock="true" class="popup-wrapper" :side-offset="5" :class="{ small }">
-          <SelectScrollUpButton class="scroll-button">
-            <div class="i-mingcute-up-fill" />
-          </SelectScrollUpButton>
+      <SelectContent v-if="open" :body-lock="true" class="popup-wrapper" :side-offset="5" :class="{ small }">
+        <SelectScrollUpButton class="scroll-button">
+          <div class="i-mingcute-up-fill" />
+        </SelectScrollUpButton>
 
-          <SelectViewport class="popup-content">
-            <template v-for="option, index of options" :key="option.value">
-              <SelectItem :value="option.value" class="popup-label" :disabled="option.disabled">
-                <SelectItemText>
-                  <template v-if="!$slots.default">
-                    {{ option.label }}
-                  </template>
-                  <slot
-                    v-else :value="option.value" :label="option.label" :disabled="option.disabled"
-                    :extra="option.extra" :index="index"
-                  />
-                </SelectItemText>
-              </SelectItem>
-            </template>
-          </SelectViewport>
+        <SelectViewport class="popup-content">
+          <template v-for="option, index of options" :key="option.value">
+            <SelectItem :value="option.value" class="popup-label" :disabled="option.disabled">
+              <SelectItemText>
+                <template v-if="!$slots.default">
+                  {{ option.label }}
+                </template>
+                <slot v-else :value="option.value" :label="option.label" :disabled="option.disabled"
+                  :extra="option.extra" :index="index" />
+              </SelectItemText>
+            </SelectItem>
+          </template>
+        </SelectViewport>
 
-          <SelectScrollDownButton class="scroll-button">
-            <div class="i-mingcute-down-fill" />
-          </SelectScrollDownButton>
-        </SelectContent>
-      </Transition>
+        <SelectScrollDownButton class="scroll-button">
+          <div class="i-mingcute-down-fill" />
+        </SelectScrollDownButton>
+      </SelectContent>
     </SelectPortal>
   </SelectRoot>
 </template>
 
 <style lang="scss" scoped>
 .select-wrapper {
-  --uno: flex items-center gap-1 text-sm cursor-pointer select-none;
-  --uno: ps-3 pe-2 py-1.5;
-  --uno: rounded-lg bg-light-400 dark:bg-dark-800;
-  --uno: border-1 border-dark/20 dark:border-light/20;
-  --uno: shadow-lg shadow-dark/3 dark:shadow-light/3;
-  --uno: transition duration-100;
+  --uno: flex items-center gap-2 text-sm cursor-pointer select-none;
+  --uno: px-3 py-2;
+  --uno: rounded-xl;
+  --uno: bg-white dark:bg-gray-800;
+  --uno: border border-gray-200 dark:border-gray-700;
+  --uno: shadow-sm;
 
   .label {
     --uno: flex-grow min-w-0 whitespace-nowrap text-ellipsis overflow-hidden;
+    --uno: font-medium text-gray-700 dark:text-gray-200;
   }
 
   &.small {
-    --uno: text-xs py-1px ps-2 pe-1;
+    --uno: text-xs py-1.5 ps-3 pe-2;
   }
-}
 
-.trans-fade-enter-active,
-.trans-fade-leave-active {
-  transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
-}
-
-.trans-fade-enter-from,
-.trans-fade-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
+  &.active {
+    --uno: bg-blue-50 dark:bg-blue-900/30;
+    --uno: border-blue-400 dark:border-blue-500;
+    --uno: shadow-md;
+  }
 }
 
 :deep(.popup-wrapper) {
   --uno: z-10 select-none max-w-90vw;
   --uno: overflow-hidden;
-  --uno: rounded-xl bg-light-500/40 dark:bg-dark-400/40;
-  --uno: backdrop-blur-md;
-  --uno: border-1 border-dark/20 dark:border-light/20;
-  --uno: shadow-lg shadow-dark/3 dark:shadow-light/3;
+  --uno: rounded-2xl;
+  --uno: bg-white dark:bg-gray-900;
+  --uno: border border-gray-200 dark:border-gray-700;
+  --uno: shadow-lg;
 
   .popup-label {
-    --uno: m-1 py-1 ps-2 pe-3 min-w-30 min-w-0 whitespace-nowrap;
-    --uno: rounded-lg;
-    --uno: transition-colors;
+    --uno: m-1.5 py-2 ps-3 pe-4 min-w-32 min-w-0 whitespace-nowrap;
+    --uno: rounded-xl;
     --uno: cursor-pointer;
+    --uno: font-medium;
+    --uno: position relative;
+    --uno: overflow-hidden;
 
     &[data-disabled] {
-      --uno: opacity-50;
+      --uno: opacity-40;
       --uno: cursor-not-allowed;
+      --uno: text-gray-400 dark:text-gray-500;
     }
 
     &[data-highlighted] {
-      --uno: bg-dark-300/5 dark:bg-light-300/5 outline-none;
+      --uno: bg-blue-50 dark:bg-blue-900/30;
+      --uno: text-blue-700 dark:text-blue-300;
     }
 
     &.popup-label[data-state="checked"] {
-      --uno: from-light-200 to-light-50 bg-linear-to-t dark:from-dark-800 dark:to-dark-400;
-      --uno: border-1 border-dark/20 dark:border-light/20;
+      --uno: bg-blue-100 dark:bg-blue-800;
+      --uno: border border-blue-300 dark:border-blue-600;
+      --uno: text-blue-800 dark:text-blue-200;
+      --uno: font-semibold;
+
+      &::after {
+        content: '✓';
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #3b82f6;
+        font-weight: bold;
+        font-size: 0.875rem;
+      }
+    }
+
+    &:not([data-disabled]):hover {
+      --uno: bg-gray-50 dark:bg-gray-800;
     }
   }
 
   .popup-content {
     --uno: text-base;
+    --uno: py-1;
   }
 
   .scroll-button {
-    --uno: h-25px flex cursor-default items-center justify-center;
-    --uno: bg-transparent;
+    --uno: h-8 flex cursor-default items-center justify-center;
+    --uno: bg-gray-100 dark:bg-gray-800;
+    --uno: text-gray-600 dark:text-gray-400;
   }
 
   &.small {
     --uno: text-xs;
 
     .popup-label {
-      --uno: py-1px ps-2 pe-2 text-sm;
+      --uno: py-1.5 ps-2.5 pe-3 text-sm;
     }
 
     .scroll-button {
-      --uno: h-20px;
+      --uno: h-6;
     }
   }
 }

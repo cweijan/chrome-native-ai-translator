@@ -59,15 +59,14 @@ const { t } = useI18n()
             <div class="i-mingcute-arrow-right-line flex-shrink-0" />
             <TargetSelect class="flex-shrink min-w-0" />
           </div>
-          <textarea ref="textarea" v-model="sourceText" :disabled="disabledTextarea" name="input" row="1"
-            :placeholder="t('input_placeholder')" autofocus
+          <textarea ref="textarea" v-model="sourceText" :disabled="disabledTextarea" name="input" row="1" autofocus
             class="outline-none w-full resize-none px-4 text-xl flex-grow min-h-0" />
           <div class="toolbar flex gap-2 items-center px-4 pb-4 justify-end">
             <SpeechButton :text="sourceText" :lang="realSourceLanguage" />
             <CopyButton :text="sourceText" />
           </div>
         </div>
-        <div class="f-ring flex flex-col max-h-60dvh min-h-180px w-full md:w-1/2">
+        <div class="translate-result flex flex-col max-h-60dvh min-h-180px w-full md:w-1/2">
           <h1
             class="text-2xl font-light p-4 flex select-none items-center justify-between text-dark-500/50 dark:text-light-300/50">
             {{ t('translate_result') }}
@@ -142,7 +141,7 @@ const { t } = useI18n()
               </div>
               <template v-else>
                 <div class="whitespace-pre-wrap">
-                  {{ replacedTranslationResult || '...' }}
+                  {{ replacedTranslationResult || ' ' }}
                 </div>
                 <div class="toolbar flex gap-2 items-center justify-end pt-4 text-base">
                   <SpeechButton :text="replacedTranslationResult" :lang="targetLanguage" />
@@ -159,9 +158,16 @@ const { t } = useI18n()
 
 <style scoped lang="scss">
 .f-ring {
-  --uno: shadow-xl shadow-dark-500/3 dark:shadow-light-500/3 border-1 border-dark-500/20 dark:border-light-300/20 rounded-2xl;
+  --uno: shadow-xl shadow-dark-500/3 dark:shadow-light-500/3 border-1 dark:border-light-300/20 rounded-2xl;
   --uno: bg-white/30 dark:bg-dark-700/30;
   --uno: backdrop-blur-md;
+  border: 1px solid rgba(0, 0, 0, .12);
+}
+
+.translate-result {
+  background-color: #f5f5f5;
+  --uno: dark:bg-dark-700/30;
+  --uno: shadow-xl shadow-dark-500/3 dark:shadow-light-500/3 dark:border-1 dark:border-light-300/20 rounded-2xl;
 }
 
 .error-container {

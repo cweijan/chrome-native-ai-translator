@@ -43,7 +43,7 @@ export const useTranslatorStore = defineStore('translator', () => {
 
   const _sourceLanguage = ref(isLanguageDetectorSupported.value ? 'auto' : 'en')
   const _realSourceLanguage = ref('')
-  const _targetLanguage = ref('zh-Hans')
+  const _targetLanguage = ref('auto')
   const translateController = ref<AbortController>()
   const isTranslating = ref(false)
   const translateResult = ref<{
@@ -112,48 +112,10 @@ export const useTranslatorStore = defineStore('translator', () => {
   }
 
   async function initLanguageDetector() {
-    // 当前已初始化，直接返回
     if (languageDetectorStatus.value !== undefined) {
       return
     }
-    try {
-      const availability = await window.LanguageDetector.availability()
-      if (availability === 'unavailable') {
-        languageDetectorStatus.value = LocalLanguageDetector
-        return
-      }
-    }
-    catch (error) {
-      languageDetectorStatus.value = LocalLanguageDetector
-      return
-    }
-    languageDetectorStatus.value = {
-      status: 'downloading',
-      progress: 0,
-      error: undefined,
-      signal: undefined,
-      controller: undefined,
-      instance: undefined,
-    }
-    try {
-      const controller = new AbortController()
-      languageDetectorStatus.value.signal = controller.signal
-      languageDetectorStatus.value.controller = controller
-      const instance = await window.LanguageDetector.create({
-        monitor(monitor) {
-          monitor.addEventListener('downloadprogress', (e) => {
-            languageDetectorStatus.value!.progress = e.loaded || 0
-          })
-        },
-        // expectedInputLanguages: LANGUAGES,
-      })
-      languageDetectorStatus.value.instance = instance
-      languageDetectorStatus.value.status = 'ready'
-    }
-    catch (error) {
-      languageDetectorStatus.value.error = error as Error
-      languageDetectorStatus.value.status = 'error'
-    }
+    languageDetectorStatus.value = LocalLanguageDetector
   }
 
   async function translate(text: string) {
@@ -207,12 +169,12 @@ export const useTranslatorStore = defineStore('translator', () => {
         }
       }
       _realSourceLanguage.value = sourceLanguage
-      if (sourceLanguage == targetLanguage) {
-        _targetLanguage.value = sourceLanguage == 'en' ? 'zh-Hans' : 'en'
-      }
     }
     else {
       _realSourceLanguage.value = sourceLanguage
+    }
+    if (sourceLanguage === targetLanguage || targetLanguage == 'auto') {
+      _targetLanguage.value = sourceLanguage == 'en' ? 'zh-Hans' : 'en'
     }
 
     if (!translatorStatus.value?.instance || translatorStatus.value?.sourceLanguage !== sourceLanguage || translatorStatus.value?.targetLanguage !== targetLanguage) {
