@@ -2,6 +2,7 @@ import { useThrottleFn } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { LocalLanguageDetector } from './languageDetector'
 
 let _t: ReturnType<typeof useI18n>['t'] | undefined
 
@@ -118,20 +119,12 @@ export const useTranslatorStore = defineStore('translator', () => {
     try {
       const availability = await window.LanguageDetector.availability()
       if (availability === 'unavailable') {
-        isLanguageDetectorSupported.value = false
-        languageDetectorStatus.value = {
-          status: 'error',
-          error: new Error('LanguageDetector is unavailable'),
-        }
+        languageDetectorStatus.value = LocalLanguageDetector
         return
       }
     }
     catch (error) {
-      isLanguageDetectorSupported.value = false
-      languageDetectorStatus.value = {
-        status: 'error',
-        error: error as Error,
-      }
+      languageDetectorStatus.value = LocalLanguageDetector
       return
     }
     languageDetectorStatus.value = {
@@ -214,6 +207,9 @@ export const useTranslatorStore = defineStore('translator', () => {
         }
       }
       _realSourceLanguage.value = sourceLanguage
+      if (sourceLanguage == targetLanguage) {
+        _targetLanguage.value = sourceLanguage == 'en' ? 'zh-Hans' : 'en'
+      }
     }
     else {
       _realSourceLanguage.value = sourceLanguage

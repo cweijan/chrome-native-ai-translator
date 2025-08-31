@@ -2,7 +2,6 @@
   "browser_not_support": "Current browser is not supported. Please try using Google Chrome version 138 or above",
   "input_placeholder": "Please enter text to translate",
   "translate_result": "Translation Result",
-  "language_detection_confidence": "Language Detection Confidence",
   "browser_not_support_language_detection": "Your browser doesn't support automatic source language detection",
   "language_detection_model_downloading": "Downloading language detection model...",
   "language_detection_model_download_failed": "Failed to load language detection model",

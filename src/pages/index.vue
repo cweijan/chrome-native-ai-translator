@@ -52,26 +52,24 @@ const { t } = useI18n()
     </div>
     <template v-else>
       <div class="flex flex-col gap-4 items-start relative md:flex-row">
+        <!-- 待翻译面板 -->
         <div class="f-ring flex flex-col gap-4 w-full md:w-1/2 max-h-60dvh min-h-180px h-fit min-w-0">
           <div class="toolbar flex gap-2 items-center px-4 pt-4 min-w-0">
             <SourceSelect class="flex-shrink min-w-0" />
             <div class="i-mingcute-arrow-right-line flex-shrink-0" />
             <TargetSelect class="flex-shrink min-w-0" />
           </div>
-          <textarea
-            ref="textarea" v-model="sourceText" :disabled="disabledTextarea" name="input" row="1"
-            :placeholder="t('input_placeholder')" class="outline-none w-full resize-none px-4 text-xl flex-grow min-h-0"
-          />
+          <textarea ref="textarea" v-model="sourceText" :disabled="disabledTextarea" name="input" row="1"
+            :placeholder="t('input_placeholder')" autofocus
+            class="outline-none w-full resize-none px-4 text-xl flex-grow min-h-0" />
           <div class="toolbar flex gap-2 items-center px-4 pb-4 justify-end">
             <SpeechButton :text="sourceText" :lang="realSourceLanguage" />
             <CopyButton :text="sourceText" />
           </div>
         </div>
-
         <div class="f-ring flex flex-col max-h-60dvh min-h-180px w-full md:w-1/2">
           <h1
-            class="text-2xl font-light p-4 flex select-none items-center justify-between text-dark-500/50 dark:text-light-300/50"
-          >
+            class="text-2xl font-light p-4 flex select-none items-center justify-between text-dark-500/50 dark:text-light-300/50">
             {{ t('translate_result') }}
             <div v-if="isTranslating" class="i-mingcute-loading-3-line animate-spin" />
             <div v-else-if="translateResult?.duration" class="text-sm text-gray-400 dark:text-gray-500">
@@ -80,30 +78,8 @@ const { t } = useI18n()
           </h1>
           <div class="p-4 pt-0 overflow-y-auto text-xl flex flex-col gap-4">
             <div
-              v-if="languageDetectionList?.length && sourceLanguage === 'auto'"
-              class="f-ring lh-[normal] text-sm p-3 flex flex-col gap-2 select-none items-start justify-center rounded-xl!"
-            >
-              <h1>
-                {{ t('language_detection_confidence') }}
-              </h1>
-              <div class="flex overflow-y-auto gap-1 min-w-100% w-0 flex-grow">
-                <div
-                  v-for="item in languageDetectionList" :key="item.detectedLanguage"
-                  class="f-ring lh-[normal] text-xs px-2 flex flex-col rounded-lg!"
-                >
-                  <p class="whitespace-nowrap">
-                    {{ displayName.getLabel(item.detectedLanguage) }}
-                  </p>
-                  <p class="whitespace-nowrap opacity-50">
-                    {{ (item.confidence * 100).toPrecision(4) }}%
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
               v-if="!isLanguageDetectorSupported || languageDetectorStatus?.status === 'downloading' || languageDetectorStatus?.status === 'error'"
-              class="f-ring lh-[normal] text-sm p-3 flex flex-col gap-2 select-none items-center justify-center rounded-xl!"
-            >
+              class="f-ring lh-[normal] text-sm p-3 flex flex-col gap-2 select-none items-center justify-center rounded-xl!">
               <template v-if="!isLanguageDetectorSupported">
                 {{ t('browser_not_support_language_detection') }}
               </template>
@@ -111,7 +87,8 @@ const { t } = useI18n()
                 <div class="flex flex-col gap-4 items-center">
                   <div class="flex gap-2 items-center">
                     <div class="i-mingcute-loading-3-line animate-spin text-lg" />
-                    {{ t('language_detection_model_downloading') }} ({{ ((languageDetectorStatus?.progress || 0) * 100).toFixed(2) }}%)
+                    {{ t('language_detection_model_downloading') }} ({{ ((languageDetectorStatus?.progress || 0)
+                      * 100).toFixed(2) }}%)
                   </div>
                   <DouProgress :progress="(languageDetectorStatus?.progress || 0) * 100" />
                 </div>
@@ -126,10 +103,8 @@ const { t } = useI18n()
                 </div>
               </template>
             </div>
-            <div
-              v-if="translatorStatus?.status === 'downloading' || translatorStatus?.status === 'error'"
-              class="f-ring lh-[normal] text-sm p-3 flex flex-col gap-2 select-none items-center justify-center rounded-xl!"
-            >
+            <div v-if="translatorStatus?.status === 'downloading' || translatorStatus?.status === 'error'"
+              class="f-ring lh-[normal] text-sm p-3 flex flex-col gap-2 select-none items-center justify-center rounded-xl!">
               <template v-if="translatorStatus?.status === 'downloading'">
                 <div class="flex flex-col gap-4 items-center">
                   <div>
@@ -140,15 +115,14 @@ const { t } = useI18n()
                   <div class="flex gap-2 items-center">
                     <div class="i-mingcute-loading-3-line animate-spin text-lg" />
                     {{
-                      translatorStatus?.noNeedToDownload ? t('translator_model_loading') : t('translator_model_downloading') }}
+                      translatorStatus?.noNeedToDownload ? t('translator_model_loading')
+                        : t('translator_model_downloading') }}
                     <template v-if="!translatorStatus?.noNeedToDownload">
                       ({{ ((translatorStatus?.progress || 0) * 100).toFixed(2) }}%)
                     </template>
                   </div>
-                  <DouProgress
-                    v-if="!translatorStatus?.noNeedToDownload"
-                    :progress="(translatorStatus?.progress || 0) * 100"
-                  />
+                  <DouProgress v-if="!translatorStatus?.noNeedToDownload"
+                    :progress="(translatorStatus?.progress || 0) * 100" />
                 </div>
               </template>
               <template v-else-if="translatorStatus?.status === 'error'">
@@ -162,10 +136,8 @@ const { t } = useI18n()
               </template>
             </div>
             <template v-else>
-              <div
-                v-if="translateResult?.error"
-                class="text-red-600 p-3 rounded-xl bg-red-600/10 dark:text-red-400 lh-[normal]"
-              >
+              <div v-if="translateResult?.error"
+                class="text-red-600 p-3 rounded-xl bg-red-600/10 dark:text-red-400 lh-[normal]">
                 {{ translateResult?.error?.message }}
               </div>
               <template v-else>

@@ -2,7 +2,6 @@
   "browser_not_support": "不支持当前浏览器，请尝试使用 Google Chrome 138 及以上的版本",
   "input_placeholder": "请输入需要翻译的文本",
   "translate_result": "翻译结果",
-  "language_detection_confidence": "语言检测置信度",
   "browser_not_support_language_detection": "你的浏览器不支持自动检测源语言",
   "language_detection_model_downloading": "正在下载语言检测模型...",
   "language_detection_model_download_failed": "语言检测模型加载失败",
