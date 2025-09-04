@@ -11,10 +11,11 @@ useDarkMode()
   <header class="select-none flex justify-between items-center px-4 py-3.5"
     style="border-bottom: 1px solid rgba(0, 0, 0, .12);">
     <h1 class="text-xl md:text-2xl text-dark-500/80 dark:text-light-50/80 flex items-center gap-0.5em">
-      <span class="inline-flex gap-x-1">
+      <a class="inline-flex gap-x-1 hover:text-inherit" href="https://translate.google.com/" target="_blank"
+        rel="noopener">
         <img src="/google.svg" alt="logo" width="74" height="24">
         <span style="font-size: 22px;">翻译</span>
-      </span>
+      </a>
     </h1>
     <nav>
       <ul class="flex items-center gap-3 text-base md:text-xl">
