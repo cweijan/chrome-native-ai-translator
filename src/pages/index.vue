@@ -69,7 +69,7 @@ function goToGoogleTranslate() {
 </script>
 
 <template>
-  <div class="mx-auto mt-2 flex flex-col gap-4 max-w-1280px pl-9 pr-8">
+  <div class="mx-auto mt-2 flex flex-col gap-4 max-w-1350px pl-9 pr-8">
     <div class="h-20px md:h-30px" />
     <div v-if="!isTranslatorSupported" class="error-container f-ring">
       {{ t('browser_not_support') }}
