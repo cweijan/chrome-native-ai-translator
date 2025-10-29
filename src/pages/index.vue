@@ -42,10 +42,34 @@ const replacedTranslationResult = computed(() => {
 })
 
 const { t } = useI18n()
+
+function mapToGoogleLang(lang: string): string {
+  if (!lang || lang === 'auto' || lang === 'und') {
+    return 'auto'
+  }
+  if (lang === 'zh-Hans') {
+    return 'zh-CN'
+  }
+  if (lang === 'zh-Hant') {
+    return 'zh-TW'
+  }
+  return lang
+}
+
+function goToGoogleTranslate() {
+  const text = (sourceText?.value || '').trim()
+  const sl = sourceLanguage?.value === 'auto' ? 'auto' : mapToGoogleLang(realSourceLanguage?.value || sourceLanguage?.value)
+  const tlBase = targetLanguage?.value || 'auto'
+  const tl = tlBase === 'auto'
+    ? (sl === 'en' ? 'zh-CN' : 'en')
+    : mapToGoogleLang(tlBase)
+  const url = `https://translate.google.com/?sl=${encodeURIComponent(sl)}&tl=${encodeURIComponent(tl)}&text=${encodeURIComponent(text)}&op=translate`
+  window.open(url, '_blank')
+}
 </script>
 
 <template>
-  <div class="mx-auto mt-2 flex flex-col gap-4 max-w-1280px">
+  <div class="mx-auto mt-2 flex flex-col gap-4 max-w-1280px pl-9 pr-8">
     <div class="h-20px md:h-30px" />
     <div v-if="!isTranslatorSupported" class="error-container f-ring">
       {{ t('browser_not_support') }}
@@ -151,6 +175,16 @@ const { t } = useI18n()
             </template>
           </div>
         </div>
+      </div>
+      <div class="w-full flex justify-center mt-3 md:mt-4 pb-1">
+        <button type="button"
+          class="px-5 py-2 rounded-lg border border-gray-100 dark:border-dark-500 bg-transparent text-base font-semibold shadow-lg hover:bg-neutral-50 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-[#1a73e8] focus:ring-offset-2 dark:focus:ring-offset-dark-800 transition"
+          @click="goToGoogleTranslate">
+          <span class="flex items-center">
+            <img src="/google.svg" alt="Google" class="h-5 mr-2">
+            翻译
+          </span>
+        </button>
       </div>
     </template>
   </div>
